@@ -102,12 +102,8 @@ class VectorStore:
 # Initialize vector store
 vectorstore = VectorStore()
 
-print(vectorstore)
+if __name__ == "__main__":
+    documents = load_documents()
+    embeddings = embedding_manager.generate_embeddings(documents)
 
-# Convert documents to text and generate embeddings
-documents_texts = [doc.page_content for doc in documents]
-embeddings = embedding_manager.generate_embeddings(documents_texts)
-
-# Add documents and embeddings to vector store
-
-vectorstore.add_documents(documents, embeddings)
+    vectorstore.add_documents(documents, embeddings)
