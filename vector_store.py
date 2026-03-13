@@ -1,7 +1,7 @@
 import os
 import uuid
 import chromadb
-from data_ingestion import documents
+from data_ingestion import process_all_pdfs
 from embeddings import embedding_manager
 import numpy as np
 from typing import List, Any
