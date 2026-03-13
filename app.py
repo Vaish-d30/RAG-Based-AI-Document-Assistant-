@@ -1,6 +1,6 @@
 import streamlit as st
-from scripts.rag_pipeline import enhanced_rag, llm
-from scripts.retriever import RAGRetriever, rag_retriever
+from rag_pipeline import enhanced_rag, llm
+from retriever import RAGRetriever, rag_retriever
 
 st.set_page_config(page_title="RAG Research Assistant", layout="wide")
 
@@ -30,4 +30,5 @@ for q, a, s in reversed(st.session_state.chat_history):
     
     for source in s:
         st.write(source)
+
         st.markdown("---")
