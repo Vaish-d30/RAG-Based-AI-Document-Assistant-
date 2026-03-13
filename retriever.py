@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
-from scripts.vector_store import VectorStore, vectorstore 
-from scripts.embeddings import EmbeddingManager,embedding_manager
+from vector_store import VectorStore, vectorstore 
+from embeddings import EmbeddingManager,embedding_manager
 
 class RAGRetriever:
     """Retrieves relevant documents from the vector store based on a query"""
@@ -58,4 +58,5 @@ class RAGRetriever:
         
 # Initialize RAG retriever
 rag_retriever = RAGRetriever(vectorstore, embedding_manager)
+
 rag_retriever
