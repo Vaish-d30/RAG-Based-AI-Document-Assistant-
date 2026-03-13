@@ -10,7 +10,7 @@ def process_all_pdfs():
     pdf_dir = Path("data")
 
     # Find all PDF files recursively
-    pdf_files = list(pdf_dir.glob("**/*.pdf"))
+    pdf_files = list(pdf_dir.rglob("*.pdf"))
 
     print(f"Found {len(pdf_files)} PDF files to process")
 
@@ -37,7 +37,6 @@ def process_all_pdfs():
     return all_documents
 
 
-# Run the function
-documents = process_all_pdfs()
-
-print(f"Total chunks created: {len(documents)}")
+if __name__ == "__main__":
+    documents = process_all_pdfs()
+    print(f"Total chunks created: {len(documents)}")
