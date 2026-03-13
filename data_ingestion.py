@@ -7,7 +7,7 @@ def process_all_pdfs():
     """Process all PDF files in the RAG project pdf_directory"""
 
     all_documents = []
-    pdf_dir = Path(r"C:\Users\chinm\RAG_PROJECT\data")
+    pdf_dir = Path(r"data/Attention is all you need_research paper.pdf")
 
     # Find all PDF files recursively
     pdf_files = list(pdf_dir.glob("**/*.pdf"))
@@ -39,4 +39,5 @@ def process_all_pdfs():
 
 # Run the function
 documents = process_all_pdfs()
+
 print(f"Total chunks created: {len(documents)}")
