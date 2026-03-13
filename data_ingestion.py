@@ -7,7 +7,7 @@ def process_all_pdfs():
     """Process all PDF files in the RAG project pdf_directory"""
 
     all_documents = []
-    pdf_dir = Path(r"data/Attention is all you need_research paper.pdf")
+    pdf_dir = Path("data")
 
     # Find all PDF files recursively
     pdf_files = list(pdf_dir.glob("**/*.pdf"))
