@@ -16,9 +16,8 @@ query = st.text_input("Ask a question")
 
 if st.button("Ask") and query:
     result = enhanced_rag(query, rag_retriever, llm)
-    answer = result["answer"]
-    sources = result["sources"]
-
+    answer = result.get("answer", "No answer generated.")
+    sources = result.get("sources", [])
     # Store history
     st.session_state.chat_history.append((query, answer, sources))
 
@@ -32,3 +31,4 @@ for q, a, s in reversed(st.session_state.chat_history):
         st.write(source)
 
         st.markdown("---")
+
