@@ -67,9 +67,10 @@ Answer:
         "answer": answer,
         "sources": list(set(sources))
     }
-#One more example question- What is an attention function?  
-answer = enhanced_rag("What is random forest?",rag_retriever,llm)
+#One more example question- What is an isolation forest?  
+answer = enhanced_rag("What is an attention function?  ",rag_retriever,llm)
 
 print("Answer:\n", answer["answer"])
 
 print("\nSources:", answer["sources"])
+
