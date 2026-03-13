@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
-from scripts.retriever import rag_retriever
+from retriever import rag_retriever
 
 load_dotenv()
 # Initialize Gemini
@@ -71,4 +71,5 @@ Answer:
 answer = enhanced_rag("What is random forest?",rag_retriever,llm)
 
 print("Answer:\n", answer["answer"])
+
 print("\nSources:", answer["sources"])
