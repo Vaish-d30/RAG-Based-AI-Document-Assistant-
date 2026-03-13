@@ -1,8 +1,8 @@
 import os
 import uuid
 import chromadb
-from scripts.data_ingestion import documents
-from scripts.embeddings import embedding_manager
+from data_ingestion import documents
+from embeddings import embedding_manager
 import numpy as np
 from typing import List, Any
 
@@ -109,4 +109,5 @@ documents_texts = [doc.page_content for doc in documents]
 embeddings = embedding_manager.generate_embeddings(documents_texts)
 
 # Add documents and embeddings to vector store
+
 vectorstore.add_documents(documents, embeddings)
