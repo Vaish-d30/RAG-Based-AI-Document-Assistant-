@@ -18,9 +18,12 @@ def enhanced_rag(query, retriever, llm, top_k=5, debug=False):
 
     # STEP 1: Retrieve documents
     results = retriever.retrieve(query, top_k=top_k)
-
+    
     if not results:
-        return "No relevant documents found."
+    return {
+        "answer": "No relevant documents found.",
+        "sources": []
+    }
 
     # STEP 2: Sort by similarity score (best first)
     results = sorted(results, key=lambda x: x["similarity_score"], reverse=True)
@@ -67,5 +70,6 @@ Answer:
         "answer": answer,
         "sources": list(set(sources))
     }
+
 
 
