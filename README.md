@@ -1,190 +1,237 @@
 # RAG-Based AI Document Assistant
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![RAG](https://img.shields.io/badge/AI-RAG-green)
-![LLM](https://img.shields.io/badge/LLM-Gemini-orange)
-![VectorDB](https://img.shields.io/badge/VectorDB-ChromaDB-purple)
-![Status](https://img.shields.io/badge/Status-Active-success)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![UI](https://img.shields.io/badge/UI-Streamlit-red)
+![VectorDB](https://img.shields.io/badge/VectorDB-ChromaDB-orange)
+![Embeddings](https://img.shields.io/badge/Embeddings-SentenceTransformers-yellow)
+![LLM](https://img.shields.io/badge/LLM-Google%20Gemini-green)
+![Architecture](https://img.shields.io/badge/Architecture-RAG-purple)
+---
 
-An AI-powered document assistant that enables **semantic search and question answering over PDF documents** using a **Retrieval-Augmented Generation (RAG)** pipeline. The system retrieves relevant document context using vector search and generates grounded responses using **Google Gemini**.
+# RAG-Based AI Document Assistant
+
+A **Retrieval-Augmented Generation (RAG)** system that allows users to ask questions about PDF documents and receive context-aware answers powered by a Large Language Model.
+
+The system processes research papers, converts them into vector embeddings, stores them in a vector database, retrieves relevant context, and generates answers using an LLM.
+
+This project demonstrates the **core architecture used in modern Generative AI applications**, including document ingestion, semantic search, vector databases, and LLM-based response generation.
 
 ---
 
 # Overview
 
-This project implements an end-to-end **Retrieval-Augmented Generation (RAG)** system that allows users to query PDF documents using natural language.
+Large Language Models are powerful but limited to the data they were trained on.
 
-The system consists of **two main pipelines**:
+This project implements **Retrieval-Augmented Generation (RAG)**, a technique that improves LLM responses by retrieving relevant information from external documents.
 
-1️⃣ **Data Processing Pipeline** – responsible for document ingestion, chunking, embedding generation, and vector database storage.
+Instead of relying solely on the model’s training knowledge, the system retrieves relevant document sections and uses them as context for generating answers.
 
-2️⃣ **RAG Retrieval Pipeline** – retrieves relevant document chunks and generates grounded answers using a large language model.
-
----
-
-# Demo
-
-Example query:
-
-<img width="785" height="269" alt="image" src="https://github.com/user-attachments/assets/30365d1d-7604-4ed1-abce-394394542d8a" />
+This enables AI systems to answer questions based on **private knowledge bases such as research papers, reports, or internal documentation**.
 
 ---
 
-# Features
-
-- PDF document ingestion and preprocessing
-- Text chunking using recursive text splitting
-- Semantic embeddings using SentenceTransformers
-- Vector-based semantic retrieval using ChromaDB
-- Context-aware response generation using Google Gemini
-- Source citations for grounded responses
-- Retrieval evaluation using multiple test queries
-
----
-
-# Tech Stack
-
-- **Python**
-- **LangChain utilities**
-- **SentenceTransformers**
-- **ChromaDB (Vector Database)**
-- **Google Gemini API**
-- **Jupyter Notebook**
-
----
-
-# System Architecture
-
-## 1. Data Processing Pipeline
-
-```
-
-PDF Documents
-↓
-Document Loading
-↓
-Text Chunking
-↓
-Embedding Generation
-↓
-Vector Database Storage (ChromaDB)
-
-```
-
-This pipeline prepares the documents for semantic search by converting them into embeddings and storing them in the vector database.
-
----
-
-## 2. RAG Retrieval Pipeline
-
-```
+# Architecture
 
 User Query
+
 ↓
-Query Embedding
+
+Retriever
+
 ↓
-Vector Similarity Search
+
+Vector Database (ChromaDB)
+
 ↓
-Top-K Relevant Chunks
+
+Relevant Document Chunks
+
 ↓
-Context Construction
+
+LLM (Gemini)
+
 ↓
-Gemini LLM
-↓
-Answer Generation with Source Citations
+
+Generated Answer + Sources
+
+---
+
+# System Diagram
 
 ```
-
-This pipeline retrieves relevant document chunks and uses them as context for the LLM to generate accurate responses.
-
----
-
-# Example Query
-
-<img width="769" height="214" alt="image" src="https://github.com/user-attachments/assets/e8f8b633-c365-42f2-85d6-230c3af40b19" />
-
----
-
-# Retrieval Evaluation
-
-To evaluate the retrieval pipeline, multiple test queries were executed to ensure that the system retrieves the most relevant document sections before generating responses.
-
-| Query | Retrieved Source | Result |
-|------|------|------|
-| What is attention function? | Attention_is_all_you_need.pdf | Relevant |
-| what is an isolation forest model? | IEEE_Research_paper.pdf | Relevant |
-| What is multi-attention function? | Attention_is_all_you_need.pdf | Relevant |
-| what is random forest? | IEEE_Research_paper.pdf | Relevant |
-
-The evaluation confirmed that the vector retrieval system correctly identifies semantically relevant document sections before generating answers.
+                ┌─────────────────────┐
+                │     User Query      │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │      Retriever      │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │   Vector Database   │
+                │      ChromaDB       │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │ Relevant PDF Chunks │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │     Gemini LLM      │
+                └─────────┬───────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │  Generated Answer   │
+                │    + Sources        │
+                └─────────────────────┘
+```
 
 ---
 
 # Project Structure
 
 ```
-
-RAG_PROJECT
+RAG-Based-AI-Document-Assistant
 │
-├── notebook
-│   ├── document.ipynb
-│   └── pdf_loader.ipynb
-│
-├── pdf_directory
-│   ├── Attention_is_all_you_need.pdf
-│   └── IEEE_Research_paper.pdf
-│
-├── data
+├── app.py                 # Streamlit frontend
+├── rag_pipeline.py        # RAG orchestration logic
+├── retriever.py           # Vector search and retrieval logic
+├── vector_store.py        # ChromaDB vector database management
+├── embeddings.py          # SentenceTransformer embedding model
+├── data_ingestion.py      # PDF loading and document chunking
 ├── requirements.txt
 ├── README.md
-├── .env.example
-└── .gitignore
-
+│
+└── data/
+    └── pdfs/              # Source PDF documents
 ```
+ IN VSCODE
+
+ <img width="258" height="326" alt="image" src="https://github.com/user-attachments/assets/86bb29d6-5139-46d7-a95c-249b6c32cfa9" />
 
 ---
 
-# Installation
+# Tech Stack
 
-### Clone the repository
+**Language**
 
-```
+Python
 
-git clone [https://github.com/yourusername/rag-document-assistant.git](https://github.com/yourusername/rag-document-assistant.git)
-cd rag-document-assistant
+**Framework**
 
-```
+Streamlit
 
-### Install dependencies
+**Vector Database**
 
-```
+ChromaDB
 
-pip install -r requirements.txt
+**Embeddings**
 
-```
+SentenceTransformers
 
-### Add your API key
+**LLM**
 
-Create a `.env` file:
+Google Gemini API
 
-```
+**Document Processing**
 
-GEMINI_API_KEY=your_api_key_here
+LangChain Document Loaders
 
-```
+---
 
-Run the notebook or pipeline to start querying documents.
+# Key Features
+
+• PDF document ingestion and processing
+• Semantic search using vector embeddings
+• Context-aware LLM responses
+• Source citation from retrieved documents
+• Modular RAG pipeline architecture
+• Interactive Streamlit interface
 
 ---
 
 # How It Works
 
-1. PDF documents are loaded and processed.
-2. Documents are split into smaller chunks for improved retrieval accuracy.
-3. SentenceTransformers generate embeddings for each chunk.
-4. The embeddings are stored in ChromaDB.
-5. When a user asks a question, the retriever identifies the most relevant chunks.
-6. The retrieved context is passed to Gemini to generate grounded answers.
+## 1. Document Ingestion
+
+PDF files are loaded and split into smaller chunks using a text splitter.
+This improves retrieval accuracy by allowing the system to search smaller sections of documents.
+
+## 2. Embedding Generation
+
+Each text chunk is converted into vector embeddings using a **SentenceTransformer model**.
+
+## 3. Vector Storage
+
+The embeddings are stored in **ChromaDB**, enabling efficient similarity search.
+
+## 4. Retrieval
+
+When a user asks a question, the system retrieves the most relevant document chunks using vector similarity.
+
+## 5. Answer Generation
+
+The retrieved context is passed to the **Gemini LLM**, which generates the final answer based on the relevant document information.
+
+---
+<img width="659" height="310" alt="image" src="https://github.com/user-attachments/assets/fe35e0d3-8520-4a89-b224-b1dcdfdd5a7d" />
+
+# Ouput/Example Query
+
+<img width="949" height="468" alt="image" src="https://github.com/user-attachments/assets/1abc79c9-405e-45ca-abee-cf435e89b50b" />
+
+
+# Installation
+
+## Clone the repository
+
+```
+git clone https://github.com/Vaish-d30/RAG-Based-AI-Document-Assistant.git
+cd RAG-Based-AI-Document-Assistant
+```
+
+## Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+## Add Gemini API key
+
+Create a `.env` file:
+
+```
+GEMINI_API_KEY=your_api_key_here
+```
+
+## Run the application
+
+```
+streamlit run app.py
+```
 
 ---
 
+# Future Improvements
+
+• Multi-document knowledge base
+• Conversational memory for chat interactions
+• Hybrid search (vector + keyword retrieval)
+• Document upload interface
+• Cloud deployment for public access
+• Support for additional document formats
+
+---
+
+# Author
+
+Vaishnavi Desai
+AI & Data Science Engineering Student
+
+GitHub:
+https://github.com/Vaish-d30
