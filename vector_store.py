@@ -103,7 +103,12 @@ class VectorStore:
 vectorstore = VectorStore()
 
 if __name__ == "__main__":
-    documents = load_documents()
-    embeddings = embedding_manager.generate_embeddings(documents)
+    documents = process_all_pdfs()
+
+    texts = [doc.page_content for doc in documents]
+
+    embeddings = embedding_manager.generate_embeddings(texts)
 
     vectorstore.add_documents(documents, embeddings)
+
+    print("Documents stored:", vectorstore.collection.count())
