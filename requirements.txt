@@ -5,4 +5,5 @@ pypdf
 pymupdf
 sentence-transformers
 faiss-cpu
+google-generativeai
 chromadb
